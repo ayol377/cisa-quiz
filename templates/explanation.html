@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Explanation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+        .continue-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .progress {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Explanation</h1>
+        <div class="progress">
+            Question {{ current_question }} of {{ total_questions }}
+        </div>
+        <div class="question">
+            <p>{{ question }}</p>
+            <ul class="options">
+                {% for key, option in options.items() %}
+                <li>
+                    {% if correct_answer == key %}
+                    <span class="correct">{{ option }}</span>
+                    {% elif user_answer == key %}
+                    <span class="incorrect">{{ option }}</span>
+                    {% else %}
+                    {{ option }}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% if is_correct %}
+            <p style="color: green;">Correct!</p>
+            {% else %}
+            <p style="color: red;">Incorrect!</p>
+            {% endif %}
+            <p>{{ explanation }}</p>
+            <a href="{{ url_for('quiz', continue=true) }}" class="continue-btn">Continue</a>
+        </div>
+    </div>
+</body>
+</html>
