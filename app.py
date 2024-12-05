@@ -11,6 +11,24 @@ with open('quiz-data.json') as f:
 # Constants
 QUESTIONS_PER_QUIZ = 20  # Set constant for number of questions
 
+def calculate_cisa_score(correct: int, total: int) -> int:
+    """
+    Calculate estimated CISA scaled score (200-800 range) from raw score.
+    
+    Args:
+        correct (int): Number of correct answers
+        total (int): Total number of questions
+    
+    Returns:
+        int: Scaled score between 200-800
+    """
+    if correct < 0 or total <= 0 or correct > total:
+        raise ValueError("Invalid input values")
+    
+    scale_range = 600  # 800 - 200
+    scaled_score = round((correct / total) * scale_range + 200)
+    return scaled_score
+
 # Initialize the quiz state
 def init_quiz():
     global current_question, correct_answers, questions
@@ -76,11 +94,11 @@ def quiz():
                                     total_questions=len(questions))
             else:
                 # No more questions, render the final result
-                p = (correct_answers / len(questions))
-                p = max(200, int(p * 800))
+                score = calculate_cisa_score(correct_answers, len(questions))
                 return render_template('result.html',
                                     total_questions=len(questions),
-                                    correct_answers=correct_answers)
+                                    correct_answers=correct_answers,
+                                    score=score)
                                     
         elif request.method == 'GET' and 'reset' in request.args:
             # Reset the quiz state

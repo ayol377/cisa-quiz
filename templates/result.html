@@ -40,6 +40,12 @@
     <div class="container">
         <h1>Quiz Result</h1>
         <p>You answered {{ correct_answers }} out of {{ total_questions }} questions correctly.</p>
+        <p>Estimated CISA scaled Score: {{ score }}</p>
+        {% if score > 450 %}
+            <p>Congratulations! You passed the quiz!</p>
+        {% else %}
+            <p>Sorry, you did not pass the quiz. You can try again by clicking the button below.</p>
+        {% endif %}
         <a href="{{ url_for('quiz', reset=true) }}" class="reset-btn">Reset Quiz</a>
     </div>
 </body>
